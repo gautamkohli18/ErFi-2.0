@@ -1,4 +1,7 @@
 ErFi 🚀
+
+<br>
+
 ErFi (Error Finder) is your ultimate desktop tool for finding and identifying specific sentences in Excel files with ease. With the tagline "Find Smart. Solve Smart.", ErFi is here to make your life easier and your error-hunting missions smoother. 🕵️‍♂️
 
 Features 🌟
