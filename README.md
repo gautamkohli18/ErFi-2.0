@@ -13,16 +13,16 @@ Python 3.7 or higher
 Required Python packages: openpyxl, tkinter, pyinstaller (for making standalone executables)
 Installation 🎉
 Install Python Packages
-Get the necessary Python packages with pip:
-pip install openpyxl pyinstaller
+Get the necessary Python packages with pip: <br> <font color="green">
+pip install openpyxl pyinstaller</font>
 Create a Standalone Executable
 No Python, no problem! Make your app into a standalone executable with PyInstaller:
 
-Install PyInstaller (if not already installed):
-pip install pyinstaller
+Install PyInstaller (if not already installed):<br> <font color="green">
+pip install pyinstaller</font>
 
-Create the executable:
-pyinstaller --onefile --windowed app.py
+Create the executable:<br> <font color="green">
+pyinstaller --onefile --windowed app.py </font>
 
 Find your shiny new executable in the dist folder. ✨
 
