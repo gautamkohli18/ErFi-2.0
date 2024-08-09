@@ -1,3 +1,2 @@
 openpyxl==3.1.2
 tkinterweb==3.2.0
-pyinstaller==5.12.0
