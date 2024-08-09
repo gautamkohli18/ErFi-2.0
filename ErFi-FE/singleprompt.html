@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentence Search Tool</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+  </style>
+  <link rel="stylesheet" href="gautam/ErFi2/templates/style.css">
+</head>
+<body>
+  <div id="my-loader"></div>  <h1>ErFi</h1><br>
+  <style>
+    body {
+      background: rgb(141,147,250);
+      background: linear-gradient(90deg, rgb(26, 1, 255) 11%, rgb(255, 0, 21) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+  </style>
+  <form id="searchForm">
+    <label for="sentences">Enter the prompt: </label><br><br>
+    <textarea id="sentences" rows="10" cols="50"></textarea><br><br>
+    <button type="button" onclick="processSentences()">Search</button>
+  </form>
+  <br>
+  <div id="results"></div>
+
+  <script>
+    async function processSentences() {
+      const sentences = document.getElementById('sentences').value.trim().split('\n');
+            const response = await fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sentences: sentences }),
+            });
+            const results = await response.json();
+            displayResults(results);
+        }
+
+
+    function displayResults(results) {
+      const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            for (const [sentence, data] of Object.entries(results)) {
+                if (data.found) {
+                    const table = document.createElement('table');
+                    const thead = document.createElement('thead');
+                    const tbody = document.createElement('tbody');
+                    
+                    const headerRow = document.createElement('tr');
+                    const headers = ['Annotator ID', 'Name', 'Response 1 Rating', 'Response 2 Rating'];
+                    headers.forEach(header => {
+                        const th = document.createElement('th');
+                        th.textContent = header;
+                        headerRow.appendChild(th);
+                    });
+                    thead.appendChild(headerRow);
+
+                    data.details.forEach(detail => {
+                        const row = document.createElement('tr');
+                        const annotatorIdCell = document.createElement('td');
+                        annotatorIdCell.textContent = detail['Annotator ID'];
+                        row.appendChild(annotatorIdCell);
+                        
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = detail['Name'];
+                        row.appendChild(nameCell);
+
+                        const response1Cell = document.createElement('td');
+                        response1Cell.textContent = detail['Response 1 Rating'];
+                        row.appendChild(response1Cell);
+
+                        const response2Cell = document.createElement('td');
+                        response2Cell.textContent = detail['Response 2 Rating'];
+                        row.appendChild(response2Cell);
+
+                        tbody.appendChild(row);
+                    });
+
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+                    resultsDiv.appendChild(table);
+                } else {
+                    const p = document.createElement('p');
+                    p.textContent = `The sentence "${sentence}" was not found in the file.`;
+                    resultsDiv.appendChild(p);
+                }
+            }
+    }
+
+    // Script to remove loader
+    window.onload = function() {
+      document.getElementById("my-loader").style.display = "none";
+    }
+  </script>
+</body>
+</html>
